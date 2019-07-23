@@ -1,0 +1,105 @@
+{% extends 'public/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+            <!-- Vue.js Development -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- Vue.js Prod
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    -->
+    <script src="/static/js/track_madlibs.js"></script>
+
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            {% if request.user.is_staff %}
+                <div class="card shadow h-100">
+                  <div class="card-body">
+                    <h5 class="card-header bg-warning">Gamemaster<a class="btn btn-outline-info btn-sm primary-color float-right" href="{% url 'new_word_type' %}">Add Type</a></h5>
+                    <div class="card-text pt-3">
+                        {% for wt in word_types %}
+                            <a class="btn btn-outline-primary btn-sm primary-color" href="{% url 'new_word' wt.id %}">{{ wt.name }}</a>
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            {% if request.user.is_staff %}
+                <div class="card shadow h-100">
+              <div class="card-body">
+                <h5 class="card-header bg-warning">Declare Winner</h5>
+                <div class="card-text pt-4">
+                    <div id="gm-app"></div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card shadow h-100">
+                      <div class="card-body">
+                        <h5 class="card-header bg-warning">Current Word Type</h5>
+                        <div class="card-text" id="c_word"></div>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card shadow">
+                      <div class="card-body">
+                        <h5 class="card-header bg-warning">Madlib</h5>
+                        <div class="card-text">
+                            <form method="post" id="form1" enctype=multipart/form-data>
+                                {% load crispy_forms_tags %}
+                                {% csrf_token %}
+                                {% crispy form %}
+                                <button class="btn btn-warning" type="submit" form="form1" value="Submit">Submit</button>
+                            </form>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="card shadow h-100">
+              <div class="card-body">
+                <h5 class="card-header bg-info">Vote for your favorite Madlib</h5>
+                <div class="card-text pt-4">
+                    <div id="app"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="card shadow h-100">
+              <div class="card-body">
+                <h5 class="card-header bg-info">Winner</h5>
+                <div class="card-text pt-4">
+                    <div id="winner"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
